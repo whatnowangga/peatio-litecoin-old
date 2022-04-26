@@ -22,7 +22,8 @@ module Peatio
 
         client.json_rpc(:getblock, [block_hash, true])
           .fetch('tx').each_with_object([]) do |tx, txs_array|
-          txs = build_transaction(tx).map do |ntx|
+          #txs = build_transaction(tx).map do |ntx|
+          txs = build_transaction(client.json_rpc(:getrawtransaction, [tx, 1])).map do |ntx|
             Peatio::Transaction.new(ntx.merge(block_number: block_number))
           end
           txs_array.append(*txs)
