@@ -2,7 +2,10 @@ module Peatio
   module Litecoin
     class Wallet < Peatio::Wallet::Abstract
 
+      DEFAULT_FEATURES = { skip_deposit_collection: false }.freeze
+      
       def initialize(settings = {})
+        @features = DEFAULT_FEATURES.merge(settings).slice(*SUPPORTED_FEATURES)
         @settings = settings
       end
 
